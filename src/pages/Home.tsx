@@ -22,6 +22,10 @@ export function Home() {
     setNewSkill('')
   }
 
+  function handleRemoveSkill(id: string) {
+    setMySkills(mySkills => mySkills.filter( skill => skill.id !== id ))
+  }
+
   // const onPress = () => {
   //   setMySkills([...mySkills, skill]);
   // }          Meu jeito
@@ -99,7 +103,10 @@ export function Home() {
           data={mySkills}
           keyExtractor={item => item.id}
           renderItem={({ item }) => (
-            <SkillCard item={item.name}/>
+            <SkillCard 
+              item={item.name}
+              onPress={() => handleRemoveSkill(item.id)}
+            />
           )}
         />
        </View>
