@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import {StyleSheet, View, Text, TextInput, TouchableOpacity, ScrollView, FlatList } from 'react-native';
+import React, { useState, useEffect } from 'react';
+import {StyleSheet, View, Text, TextInput, FlatList, AsyncStorage } from 'react-native';
 
 import { Button } from '../components/Button';
 import { SkillCard } from '../components/SkillCard';
@@ -12,6 +12,7 @@ interface SkillsProps {
 export function Home() {
   const [skill, setNewSkill] = useState('');
   const [mySkills, setMySkills] = useState<SkillsProps[]>([]);
+  const [greeting, setGreeting] = useState('');
 
   function handleAddNewSkill() {
     const data = {
@@ -68,11 +69,28 @@ export function Home() {
   // </>
   // );
 
+  useEffect(() => {
+    const currentHour = new Date().getHours();
+    console.log(currentHour);
+    if(currentHour < 12) {
+      setGreeting("Bom Dia")
+    } else if(currentHour < 18) {
+      setGreeting("Boa Tarde")
+    } else {
+      setGreeting("Boa Noite")
+    }
+    console.log('UseEffect executado')
+  }, [])
+
   return (
     <>
        <View style={styles.container}>
          <Text style={styles.title}>Bem Vindo, Mateus</Text>
          <Text style={styles.text}>Sistemas de Informação</Text>
+
+         <Text style={styles.greetings}>
+           {greeting}
+         </Text>
  
          <TextInput 
            style={styles.input}
@@ -126,6 +144,9 @@ const styles = StyleSheet.create({
   title: {
     fontSize: 25,
     fontWeight: 'bold',
+    color: '#fff',
+  },
+  greetings: {
     color: '#fff',
   },
   text: {
