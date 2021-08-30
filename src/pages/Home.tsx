@@ -1,8 +1,10 @@
 import React, { useState, useEffect } from 'react';
-import {StyleSheet, View, Text, TextInput, FlatList, AsyncStorage } from 'react-native';
+import { FlatList } from 'react-native';
 
 import { Button } from '../components/Button';
 import { SkillCard } from '../components/SkillCard';
+
+import { Container, Title, Greetings, Text, Input } from './styles';
 
 interface SkillsProps {
   id: string;
@@ -71,7 +73,6 @@ export function Home() {
 
   useEffect(() => {
     const currentHour = new Date().getHours();
-    console.log(currentHour);
     if(currentHour < 12) {
       setGreeting("Bom Dia")
     } else if(currentHour < 18) {
@@ -79,25 +80,24 @@ export function Home() {
     } else {
       setGreeting("Boa Noite")
     }
-    console.log('UseEffect executado')
   }, [])
 
   return (
     <>
-       <View style={styles.container}>
-         <Text style={styles.title}>Bem Vindo, Mateus</Text>
-         <Text style={styles.text}>Sistemas de Informação</Text>
+       <Container>
+         <Title>Bem Vindo, Mateus</Title>
+         <Text>Sistemas de Informação</Text>
 
-         <Text style={styles.greetings}>
+         <Greetings>
            {greeting}
-         </Text>
+         </Greetings>
  
-         <TextInput 
-           style={styles.input}
+         <Input
            placeholder="New Skill"
            placeholderTextColor='#555'
            value={skill}
            onChangeText={value => setNewSkill(value)}
+           onSubmitEditing={handleAddNewSkill}
          />
  
          {/* <TouchableOpacity
@@ -112,9 +112,7 @@ export function Home() {
           onPress={handleAddNewSkill}
          />
  
-         <Text
-         style={[styles.title, {marginVertical: 20}]}
-         >
+         <Text style={{marginTop: 15, marginBottom: 10}}>
            MySkills
          </Text>
          <FlatList showsVerticalScrollIndicator={false}
@@ -127,40 +125,40 @@ export function Home() {
             />
           )}
         />
-       </View>
+       </Container>
    </>
    );
 }
 
-const styles = StyleSheet.create({
-  container: { 
-    flex: 1,
-    // alignItems: 'center',
-    // justifyContent: 'center',
-    paddingHorizontal: 30,
-    paddingVertical: 70,
-    backgroundColor: '#121815'
-  },
-  title: {
-    fontSize: 25,
-    fontWeight: 'bold',
-    color: '#fff',
-  },
-  greetings: {
-    color: '#fff',
-  },
-  text: {
-    fontSize: 20,
-    color: '#fff'
-  },
-  input: {
-    marginTop: 20, 
-    padding: 10,
-    // width: 150, 
-    // height: 40,
-    fontSize: 15,
-    borderRadius: 10,
-    backgroundColor: '#1f1e25',
-    color: '#fff',
-  },
-})
+// const styles = StyleSheet.create({
+//   container: { 
+//     flex: 1,
+//     // alignItems: 'center',
+//     // justifyContent: 'center',
+//     paddingHorizontal: 30,
+//     paddingVertical: 70,
+//     backgroundColor: '#121815'
+//   },
+//   title: {
+//     fontSize: 25,
+//     fontWeight: 'bold',
+//     color: '#fff',
+//   },
+//   greetings: {
+//     color: '#fff',
+//   },
+//   text: {
+//     fontSize: 20,
+//     color: '#fff'
+//   },
+//   input: {
+//     marginTop: 20, 
+//     padding: 10,
+//     // width: 150, 
+//     // height: 40,
+//     fontSize: 15,
+//     borderRadius: 10,
+//     backgroundColor: '#1f1e25',
+//     color: '#fff',
+//   },
+// })
