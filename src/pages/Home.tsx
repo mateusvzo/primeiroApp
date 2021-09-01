@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { FlatList } from 'react-native';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 import { Button } from '../components/Button';
 import { SkillCard } from '../components/SkillCard';
@@ -28,49 +29,7 @@ export function Home() {
   function handleRemoveSkill(id: string) {
     setMySkills(mySkills => mySkills.filter( skill => skill.id !== id ))
   }
-
-  // const onPress = () => {
-  //   setMySkills([...mySkills, skill]);
-  // }          Meu jeito
-
-  // return (
-  //  <>
-  //     <View style={styles.container}>
-  //       <Text style={styles.title}>Bem Vindo, Mateus</Text>
-  //       <Text style={styles.text}>Sistemas de Informação</Text>
-
-  //       <TextInput 
-  //         style={styles.input}
-  //         placeholder="New Skill"
-  //         placeholderTextColor='#555'
-  //         value={skill}
-  //         onChangeText={value => setNewSkill(value)}
-  //       />
-
-  //       <TouchableOpacity
-  //         style={styles.button}
-  //         activeOpacity={0.5}
-  //         onPress = {handleAddNewSkill}
-  //       >
-  //         <Text style={styles.buttonText}>Add</Text>
-  //       </TouchableOpacity>
-
-  //       <Text
-  //       style={[styles.title, {marginVertical: 20}]}
-  //       >
-  //         MySkills
-  //       </Text>
-  //       <ScrollView showsVerticalScrollIndicator={false}>
-  //         {mySkills.map(e => (
-  //           <TouchableOpacity key={e.id} style={styles.buttonSkill}>
-  //             <Text style= {styles.textSkill}>{e.name}</Text>
-  //           </TouchableOpacity>
-  //         ))}
-  //       </ScrollView>
-  //     </View>
-  // </>
-  // );
-
+  
   useEffect(() => {
     const currentHour = new Date().getHours();
     if(currentHour < 12) {
@@ -81,6 +40,12 @@ export function Home() {
       setGreeting("Boa Noite")
     }
   }, [])
+
+  useEffect(() => {
+    async function saveData() {
+      await AsyncStorage.setItem('@myskills:skills', JSON.stringify(mySkills))
+    }
+  }, [mySkills])
 
   return (
     <>
