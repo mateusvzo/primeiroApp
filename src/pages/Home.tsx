@@ -29,6 +29,14 @@ export function Home() {
   function handleRemoveSkill(id: string) {
     setMySkills(mySkills => mySkills.filter( skill => skill.id !== id ))
   }
+
+  useEffect(() => {
+    async function loadData() {
+      const getData = await AsyncStorage.getItem('@myskills:skills');
+      return getData != null ? setMySkills(JSON.parse(getData)) : null;
+    }
+    loadData();
+  }, [])
   
   useEffect(() => {
     const currentHour = new Date().getHours();
@@ -45,6 +53,7 @@ export function Home() {
     async function saveData() {
       await AsyncStorage.setItem('@myskills:skills', JSON.stringify(mySkills))
     }
+    saveData();
   }, [mySkills])
 
   return (
